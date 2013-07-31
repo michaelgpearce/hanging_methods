@@ -32,6 +32,32 @@ puts interesting.hanging_method_invocations(:add)
 ```
 
 
+## Get notified of a hanging method
+
+You can be notified of method being hanged and specify its result.
+
+```ruby
+require 'rubygems'
+require 'hanging_methods'
+
+class Interesting
+  include HangingMethods
+  
+  add_hanging_method :add, after_invocation: :added
+
+  private
+
+  def added(method_name_and_arguments)
+  	# method_name_and_arguments is [:a_method, 1, 2]
+  	return :very_interesting
+  end
+end
+
+interesting = Interesting.new
+interesting.add.a_method(1, 2)
+# returns :very_interesting
+```
+
 # Credits
 
 [Hanging Methods](https://github.com/michaelgpearce/hanging_methods) is maintained by [Michael Pearce](https://github.com/michaelgpearce)

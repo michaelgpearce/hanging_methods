@@ -10,11 +10,13 @@ describe HangingMethods do
     def add_more_invocations
       @add_more_invocations ||= []
     end
-    
+
     private
     
     def add_more_after_invocation(method_name_and_args)
       add_more_invocations << method_name_and_args
+
+      method_name_and_args.size
     end
   end
   
@@ -37,14 +39,17 @@ describe HangingMethods do
     end
     
     context "with after_invocation" do
-      before do
-        client.add_more.a_method
-        client.add_more.another_method('arg1', 'arg2')
-      end
+      let!(:method_1_return) { client.add_more.a_method }
+      let!(:method_2_return) { client.add_more.another_method('arg1', 'arg2') }
       
       it "should add invocation" do
         subject
         expect(client.add_more_invocations).to eq [[:a_method], [:another_method, 'arg1', 'arg2']]
+      end
+
+      it "should return the value of the after_invocation method" do
+        expect(method_1_return).to eq 1
+        expect(method_2_return).to eq 3
       end
     end
   end

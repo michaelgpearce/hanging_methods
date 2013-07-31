@@ -30,7 +30,7 @@ module HangingMethods
     def add_hanging_method_name_and_args_invocation(hanging_method_name, method_name_and_args)
       hanging_method_invocations(hanging_method_name) << method_name_and_args
       
-      if after_invocation = self.class.hanging_method_options(hanging_method_name)[:after_invocation]
+      ret = if after_invocation = self.class.hanging_method_options(hanging_method_name)[:after_invocation]
         send(after_invocation, method_name_and_args)
       end
     end

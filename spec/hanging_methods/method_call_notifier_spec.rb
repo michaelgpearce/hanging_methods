@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe HangingMethods::MethodCallNotifier do
   describe "#method_missing" do
+    let(:return_value) { rand }
+
     before do
       @notifier = HangingMethods::MethodCallNotifier.new do |*args|
         @callback_args = args
+        return_value
       end
     end
     
@@ -17,8 +20,8 @@ describe HangingMethods::MethodCallNotifier do
       expect(@callback_args).to eq([:call_a_method, 'with args'])
     end
     
-    it "should return the notifier" do
-      expect(subject).to eq(@notifier)
+    it "should return block result" do
+      expect(subject).to eq(return_value)
     end
   end
 end
