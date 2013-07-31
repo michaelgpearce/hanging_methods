@@ -28,6 +28,7 @@ interesting.add.a_method
 interesting.add.another_method(1, 2)
 
 puts interesting.hanging_method_invocations(:add)
+# [[:a_method], [:another_method, 1, 2]]
 ```
 
 
