@@ -14,12 +14,11 @@ See [Parallizer](https://github.com/michaelgpearce/parallizer) for an example.
 Here's an example.
 
 ```ruby
-require 'rubygems'
 require 'hanging_methods'
 
 class Interesting
   include HangingMethods
-  
+
   add_hanging_method :add
 end
 
@@ -37,25 +36,23 @@ puts interesting.hanging_method_invocations(:add)
 You can be notified of method being hanged and specify its result.
 
 ```ruby
-require 'rubygems'
 require 'hanging_methods'
 
 class Interesting
   include HangingMethods
-  
+
   add_hanging_method :add, after_invocation: :added
 
   private
 
-  def added(method_name_and_arguments)
-  	# method_name_and_arguments is [:a_method, 1, 2]
-  	return :very_interesting
+  def added(method_name, arg_1, arg_2, &block)
+    return "very_interesting: #{arg_1}, #{arg_2}, #{yield}"
   end
 end
 
 interesting = Interesting.new
-interesting.add.a_method(1, 2)
-# returns :very_interesting
+interesting.add.a_method(1, 2) { 3 }
+# returns "very_interesting: 1, 2, 3"
 ```
 
 # Credits
